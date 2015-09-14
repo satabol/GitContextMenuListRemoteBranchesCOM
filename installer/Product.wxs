@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+     xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension"
+     xmlns:util="http://schemas.microsoft.com/wix/UtilExtension"
+     >
+  <!-- WiXUtilExtension: http://habrahabr.ru/post/71917/ -->
+  
+  <!-- Список переменных WiX: http://wixtoolset.org/documentation/manual/v3/votive/votive_project_references.html -->
+  <?define ProductName="GitContextMenuListRemoteBranchesCOM" ?>
+  <?define Manufacturer="Stroiproect"?>
+  <?define version="1.0.0.0"?>
+  <?define UpgradeCode="{E216BCEE-79AD-449A-AC1A-AD7FA2D13E69}"?>
+  <Product Id="*" Name="$(var.ProductName)" Language="1033" Version="!(bind.fileVersion.IDFILE_GitContextMenuListRemoteBranchesCOM)" Manufacturer="$(var.Manufacturer)" UpgradeCode="$(var.UpgradeCode)">
+    <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" Platform="x64"/>
+    <PropertyRef Id="NETFRAMEWORK45"/>
+    <Condition Message="This application requires .NET Framework 4.5.1. NETFRAMEWORK45([NETFRAMEWORK45]). Please install the .NET Framework then run this installer again.">
+      <![CDATA[Installed or NETFRAMEWORK45>="#378758"]]>
+    </Condition>
+
+    <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+    <Media Id="1" Cabinet="GitContextMenuListRemoteBranchesCOM.cab" EmbedCab="yes" />
+
+    <!-- На основе примера: http://wixtoolset.org/documentation/manual/v3/howtos/files_and_registry/add_a_file.html -->
+    <!-- Step 1: Define the directory structure -->
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="APPLICATIONROOTDIRECTORY" Name="$(var.ProductName)">
+          <Directory Id="ID_NativeBinaries" Name="NativeBinaries">
+            <Directory Id="ID_NativeBinaries_amd64" Name="amd64">
+            </Directory>
+            <Directory Id="ID_NativeBinaries_x86" Name="x86">
+            </Directory>
+          </Directory>
+        </Directory>
+      </Directory>
+    </Directory>
+
+    <!-- Step 2: Add files to your installer package -->
+    <DirectoryRef Id="APPLICATIONROOTDIRECTORY">
+      <Component Id="IDCOMPONENT_GitContextMenuListRemoteBranchesCOM" Guid="{97BCEDB9-9083-4F1B-8484-8C56CBDD3BA5}">
+        <File Id="IDFILE_GitContextMenuListRemoteBranchesCOM" Source="$(var.GitContextMenuListRemoteBranchesCOM.TargetPath)" KeyPath="yes" Checksum="yes"/>
+      </Component>
+      <Component Id="IDCOMPONENT_SRM" Guid="{46A63045-9EE1-4F2E-B58B-AB3DEE6B4570}">
+        <File Id="IDFILE_SRM" Source="$(var.SolutionDir)packages\SharpShellTools.2.2.0.0\lib\srm.exe" KeyPath="yes"/>
+      </Component>
+      <Component Id="IDCOMPONENT_Apex.WinForms.dll" Guid="{18FDED24-7B21-42CF-A8C2-E1A3265A83AA}">
+        <File Id="IDFILE_Apex.WinForms.dll" Source="$(var.GitContextMenuListRemoteBranchesCOM.TargetDir)Apex.WinForms.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="IDCOMPONENT_LibGit2Sharp" Guid="{13E28417-A328-4511-93B4-476E6FD0A0CB}">
+        <File Id="IDFILE_LibGit2Sharp" Source="$(var.GitContextMenuListRemoteBranchesCOM.TargetDir)LibGit2Sharp.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="IDCOMPONENT_SharpShell" Guid="{E59E5C19-777D-4492-8A13-256AC909DC38}">
+        <File Id="IDFILE_SharpShell" Source="$(var.GitContextMenuListRemoteBranchesCOM.TargetDir)SharpShell.dll" KeyPath="yes"/>
+      </Component>
+    </DirectoryRef>
+    <DirectoryRef Id="ID_NativeBinaries_amd64">
+      <Component Id="IDCOMPONENT_NB_amd64_git2" Guid="{CAF2BA91-1D3C-4772-9FCE-91AAEFBCB1B2}">
+        <File Id="IDFILE_NB_amd64_git2" Source="$(var.GitContextMenuListRemoteBranchesCOM.TargetDir)NativeBinaries\amd64\git2-e0902fb.dll" KeyPath="yes"/>
+      </Component>
+    </DirectoryRef>
+    <DirectoryRef Id="ID_NativeBinaries_x86">
+      <Component Id="IDCOMPONENT_NB_x86_git2" Guid="{7E2677B5-8BA3-4588-B16B-69B30349EA6F}">
+        <File Id="IDFILE__NB_x86_git2" Source="$(var.GitContextMenuListRemoteBranchesCOM.TargetDir)NativeBinaries\x86\git2-e0902fb.dll" KeyPath="yes"/>
+      </Component>
+    </DirectoryRef>
+
+    <Feature Id="MainApplication" Title="installer" Level="1">
+      <ComponentRef Id="IDCOMPONENT_GitContextMenuListRemoteBranchesCOM"/>
+      <ComponentRef Id="IDCOMPONENT_SRM" />
+      <ComponentRef Id="IDCOMPONENT_LibGit2Sharp" />
+      <ComponentRef Id="IDCOMPONENT_SharpShell" />
+      <ComponentRef Id="IDCOMPONENT_Apex.WinForms.dll" />
+      <ComponentRef Id="IDCOMPONENT_NB_amd64_git2" />
+      <ComponentRef Id="IDCOMPONENT_NB_x86_git2" />
+    </Feature>
+
+    <InstallExecuteSequence>
+      <Custom Action='comInstall' After='InstallFiles'>Not Installed</Custom>
+      <Custom Action='comUnInstall' Before='RemoveFiles'>Installed</Custom>
+      <!--
+      -->
+    </InstallExecuteSequence>
+  </Product>
+
+  <!-- 
+  <Fragment>
+    <CustomAction Id='comInstall'   Impersonate='yes' Directory='APPLICATIONROOTDIRECTORY' Execute="deferred" ExeCommand='srm.exe install "[APPLICATIONROOTDIRECTORY]GitContextMenuListRemoteBranchesCOM.dll" -codebase' Return='check' />
+    <CustomAction Id='comUnInstall' Impersonate='yes' Directory='APPLICATIONROOTDIRECTORY' Execute="deferred" ExeCommand='srm.exe uninstall "[APPLICATIONROOTDIRECTORY]GitContextMenuListRemoteBranchesCOM.dll"' Return='check' />
+  </Fragment>
+  -->
+  <Fragment>
+    <CustomAction Id='comInstall'   Impersonate='no' FileKey='IDFILE_SRM' Execute="deferred" ExeCommand=' install "[APPLICATIONROOTDIRECTORY]GitContextMenuListRemoteBranchesCOM.dll" -codebase' Return='check' />
+    <CustomAction Id='comUnInstall' Impersonate='no' FileKey='IDFILE_SRM' Execute="deferred" ExeCommand=' uninstall "[APPLICATIONROOTDIRECTORY]GitContextMenuListRemoteBranchesCOM.dll"' Return='check' />
+  </Fragment>
+
+  <!--
+  <Fragment>
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="INSTALLFOLDER" Name="$(var.ProductName)">
+          <Component Id="MainExecutable" Guid="{E3320886-CC6E-48DC-A05D-4F67A16EE265}">
+            <File Id="ServiceExeFile" Name="GitContextMenuListRemoteBranchesCOM.dll" Source="$(var.GitContextMenuListRemoteBranchesCOM.TargetFileName)" KeyPath="yes"></File>
+            <File Id="ServerDllFile"  Name="srm.exe" Source="$(var.GitContextMenuListRemoteBranchesCOM.packages)" KeyPath="no"></File>
+            <RemoveFolder Id="INSTALLDIR" Directory="INSTALLDIR" On="uninstall"/>
+          </Component>
+        </Directory>
+      </Directory>
+    </Directory>
+  </Fragment>
+  -->
+
+  <!--
+	<Fragment>
+		<ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+			<Component Id="ProductComponent">
+			</Component>
+		</ComponentGroup>
+	</Fragment>
+  -->
+</Wix>
