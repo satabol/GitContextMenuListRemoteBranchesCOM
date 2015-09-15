@@ -57,5 +57,11 @@ open git remote branches from windows context menu (C#, Windows 8, 8.1, 10, Net 
 	
 "C:\Program Files (x86)\GitContextMenuListRemoteBranchesCOM\srm.exe" uninstall "C:\Program Files (x86)\GitContextMenuListRemoteBranchesCOM\GitContextMenuListRemoteBranchesCOM.dll"
 
+## Запуск приложения в отладочном режиме
 
+Приложение можно запустить без установки сервера компонента. В документе http://www.codeproject.com/Articles/512956/NET-Shell-Extensions-Shell-Context-Menus написано, что
+нельзя запустить компонент, т.к. он не является исполняемой программой. Но если запустить программу, которая загрузит dll, то на самом деле можно.
+Делается это так:
+
+![](help/3.png)
 
