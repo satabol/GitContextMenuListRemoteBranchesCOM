@@ -6,19 +6,15 @@ open git remote branches from windows context menu (C#, Windows 8, 8.1, 10, Net 
 
 ![](help/1.png)
 
-Инсталлятор WiX:
-
-![](help/2.png)
-
-##Контекстное меню со списком удалённых репозиториев для git-репозитория
+## Контекстное меню со списком удалённых репозиториев для git-репозитория
 
 Выводит в контекстном меню список http(s)-адресов и переходит на них при нажатии на каталог с репозиторием
 
-##Результат:
+## Результат:
 
 ![](help/pasted_image003.png)
 
-##Установка (install)
+## Установка (install)
 
 
 1. Клонировать (Clone):
@@ -52,12 +48,12 @@ open git remote branches from windows context menu (C#, Windows 8, 8.1, 10, Net 
 После этого каталог установки можно удалить вручную.
 
 
-##Ручное удаление (manual install/uninstall application)
+## Ручное удаление (manual install/uninstall application)
 
 "C:\Program Files (x86)\GitContextMenuListRemoteBranchesCOM\srm.exe" uninstall "C:\Program Files (x86)\GitContextMenuListRemoteBranchesCOM\GitContextMenuListRemoteBranchesCOM.dll"
 
 
-##Ручная установка:
+## Ручная установка:
 	
 "C:\Program Files (x86)\GitContextMenuListRemoteBranchesCOM\srm.exe" uninstall "C:\Program Files (x86)\GitContextMenuListRemoteBranchesCOM\GitContextMenuListRemoteBranchesCOM.dll"
 
