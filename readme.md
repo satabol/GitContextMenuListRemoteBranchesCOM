@@ -1,6 +1,6 @@
 # GitContextMenuListRemoteBranchesCOM
 
-open git remote branches from windows context menu (C#, Windows 8, 8.1, 10, Net 4.5)
+open git remote branches from windows context menu (C#, Windows 8, 8.1, 10, Net 4.5, Visual Studio 2013)
 
 ##Контекстное меню со списком удалённых репозиториев для git-репозитория
 
